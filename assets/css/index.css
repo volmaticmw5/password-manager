@@ -1,0 +1,21 @@
+html{
+    overflow-y:auto;
+}
+
+#create_error
+{
+    color:red;
+}
+
+#create_error
+{
+    color:red;
+}
+
+#toggle_light_dark_mode
+{
+    position: fixed;
+    bottom:10px;
+    right:10px;
+    cursor: pointer;
+}

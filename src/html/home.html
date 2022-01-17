@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <title>Password Manager</title>
+    <link rel="stylesheet" href="../../assets/css/bulma.min.css">
+    <link rel="stylesheet" href="../../assets/css/fa.min.css">
+    <link rel="stylesheet" href="../../assets/css/index.css" />
+  </head>
+  <body>
+    <section class="section has-text-centered" id="loading_text">
+      <div class="container">
+        <div>Loading...</div>
+      </div>
+    </section>
+    <section id="main">
+      <label for="menu-toggle" class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <input type="checkbox" id="menu-toggle" class="is-hidden"/>
+      <section class="main-content columns is-fullheight">
+        <aside class="column is-3 is-narrow-mobile is-fullheight section is-hidden-mobile">
+          <p class="menu-label is-hidden-touch">Navigation</p>
+          <ul class="menu-list">
+            <li>
+              <a href="#" class="is-active" id="passwords">
+                <span class="icon"><i class="fa fa-key"></i></span> Passwords
+              </a>
+            </li>
+            <li>
+              <a href="#" class="" id="notes">
+                <span class="icon"><i class="fa fa-sticky-note"></i></span> Notes
+              </a>
+            </li>
+          </ul>
+        </aside>
+      
+        <div class="container column is-9">
+          <div class="section" id="main_center">
+      
+          </div>
+        </div>
+      </section>
+    </section>
+    
+    <div class="modal" id="notes_modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Notes</p>
+          <button id="notesModalClose" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          Secure notes are not yet available, but they will soon!
+        </section>
+        <footer class="modal-card-foot">
+        </footer>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <div class="notification is-info" id="copyNotification">
+          <button id="clipboardNotificationClose" class="delete"></button>
+          This password has been copied to your clipboard!
+        </div>
+      </div>
+    </footer>
+
+    <div id="toggle_light_dark_mode">Toggle mode</div>
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../renderer/home.js"></script>
+  </body>
+</html>
