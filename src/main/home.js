@@ -18,3 +18,15 @@ ipcMain.on('CopyPassword', (event, arg) => {
     let readable = udata.GetPasswordFromId(arg.id)
     clipboard.writeText(readable)
 })
+
+ipcMain.on('NewPassword', (event, args) => {
+    let res = udata.AddPassword(args.name, args.url, args.username, args.password)
+
+    if(res)
+    {
+        udata.WriteUserData()
+        event.sender.send('UserDataResponse', {
+            data: udata.GetData()
+        })
+    }
+})

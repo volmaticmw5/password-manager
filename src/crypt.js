@@ -6,7 +6,6 @@ const encrypt = (master, text) => {
     let key = crypto.createHash('sha256').update(String(master)).digest('base64').substr(0, 32);
     const cipher = crypto.createCipheriv(algorithm, key, iv);
     const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
-    console.log(encrypted.toString('hex'))
 
     return {
         iv: iv.toString('hex'),

@@ -14,16 +14,20 @@
         <div>Loading...</div>
       </div>
     </section>
+
+    <!-- Burger -->
+    <a role="button" class="navbar-burger is-hidden-desktop is-hidden-widescreen" aria-label="menu" aria-expanded="false" data-target="sidebar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+
     <section id="main">
-      <label for="menu-toggle" class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-      <input type="checkbox" id="menu-toggle" class="is-hidden"/>
-      <section class="main-content columns is-fullheight">
-        <aside class="column is-3 is-narrow-mobile is-fullheight section is-hidden-mobile">
-          <p class="menu-label is-hidden-touch">Navigation</p>
+      <section class="main-content columns">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="navbar-menu column is-3 section is-hidden-mobile is-hidden-touch">
+          <p class="menu-label">Navigation</p>
           <ul class="menu-list">
             <li>
               <a href="#" class="is-active" id="passwords">
@@ -37,15 +41,21 @@
             </li>
           </ul>
         </aside>
-      
+
+        <!-- Main content -->
         <div class="container column is-9">
-          <div class="section" id="main_center">
-      
+          <div class="buttons is-right mt-3 mb-3">
+            <button id="newPasswordBtn" class="button is-success is-rounded mb-3 mr-2 is-right">New password<i class="fas fa-plus ml-2"></i></button>
+          </div>
+          <div class="section" id="main_center" style="max-height:70vh;overflow-y:auto">
+            
           </div>
         </div>
+
       </section>
     </section>
     
+    <!-- Modals-->
     <div class="modal" id="notes_modal">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -60,15 +70,55 @@
         </footer>
       </div>
     </div>
-
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <div class="notification is-info" id="copyNotification">
-          <button id="clipboardNotificationClose" class="delete"></button>
-          This password has been copied to your clipboard!
-        </div>
+    
+    <div class="modal" id="new_password_modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">New password</p>
+          <button id="newPasswordClose" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form id="newPassword">
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_new_password_name" class="input" type="text" placeholder="Password name">
+              <span class="icon is-small is-left">
+                <i class="fas fa-signature"></i>
+              </span>
+            </p>
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_new_password_url" class="input" type="text" placeholder="Url">
+              <span class="icon is-small is-left">
+                <i class="far fa-window-maximize"></i>
+              </span>
+            </p>
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_new_password_username" class="input" type="text" placeholder="Username or E-mail">
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </p>
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_new_password_password" class="input" type="password" placeholder="Password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+  
+            <input type="submit" value="Save" class="button is-centered is-primary is-medium mt-5">
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+        </footer>
       </div>
-    </footer>
+    </div>
+
+    <div class="content has-text-centered">
+      <div class="notification is-info" id="copyNotification">
+        <button id="clipboardNotificationClose" class="delete"></button>
+        This password has been copied to your clipboard!
+      </div>
+    </div>
 
     <div id="toggle_light_dark_mode">Toggle mode</div>
     <script src="../../assets/js/jquery.min.js"></script>

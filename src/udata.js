@@ -22,6 +22,23 @@ export default class UserData
         return fs.existsSync(userDataPath)
     }
 
+    AddPassword(name, url, username, password)
+    {
+        let encPass = encrypt(config.getMasterPassword(), password)
+        this.userDataObj.push(
+            {
+                "id": crypto.randomInt(9999,99999999),
+                "type": "password",
+                "url": url,
+                "name": name,
+                "username": username,
+                "password": encPass
+            }
+        )
+
+        return true
+    }
+
     WriteUserData()
     {
         try{
