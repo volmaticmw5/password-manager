@@ -8,7 +8,12 @@ const newPasswordClose = document.getElementById('newPasswordClose')
 const newPasswordBtn = document.getElementById('newPasswordBtn')
 const clipboardAlert = document.getElementById('copyNotification')
 const clipboardClose = document.getElementById('clipboardNotificationClose')
-const form = document.querySelector('#newPassword');
+const deleteModalClose = document.getElementById('closeDeleteBtn')
+const deleteModalClose2 = document.getElementById('closeDeleteBtn2')
+const deleteBtnConfirm = document.getElementById('deleteBtnConfirm')
+const form = document.querySelector('#newPassword')
+
+let toDeleteIdTemp = -1
 
 // Set styles
 clipboardAlert.style.display = "none";
@@ -30,6 +35,20 @@ form.addEventListener('submit', (e) => {
     password: document.getElementById('input_new_password_password').value
   })
 });
+
+deleteBtnConfirm.addEventListener('click', (e) => {
+  window.api.send('DeletePassword', {id: toDeleteIdTemp})
+  document.getElementById('delete_modal').classList.remove('is-active')
+  toDeleteIdTemp = -1
+})
+
+deleteModalClose2.addEventListener('click', (e) => {
+  document.getElementById('delete_modal').classList.remove('is-active')
+})
+
+deleteModalClose.addEventListener('click', (e) => {
+  document.getElementById('delete_modal').classList.remove('is-active')
+})
 
 newPasswordBtn.addEventListener('click', (e) => {
   newPasswordModal.classList.add('is-active')
@@ -104,7 +123,7 @@ window.api.receive("UserDataResponse", (resp) =>
                     <a href="#"><i class="fas fa-pencil-alt has-text-info"></i></a>
                 </div>
                 <div class="card-footer-item">
-                    <a href="#"><i class="fas fa-trash has-text-danger-dark"></i></a>
+                    <a href="#" onclick="deleteModal('`+entry.id+`')"><i class="fas fa-trash has-text-danger-dark"></i></a>
                 </div>
               </div>
             </div>
@@ -113,6 +132,11 @@ window.api.receive("UserDataResponse", (resp) =>
         }
     })
 })
+
+deleteModal = (id) => {
+  document.getElementById('delete_modal').classList.add('is-active')
+  toDeleteIdTemp = id
+}
 
 copyPassword = (id) => {
     window.api.send('CopyPassword', {id: id})

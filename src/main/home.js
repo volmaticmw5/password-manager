@@ -30,3 +30,14 @@ ipcMain.on('NewPassword', (event, args) => {
         })
     }
 })
+
+ipcMain.on('DeletePassword', (event, args) => {
+    if(args.id <= 0)
+        return
+    
+    udata.DeletePassword(args.id)
+    udata.WriteUserData()
+    event.sender.send('UserDataResponse', {
+        data: udata.GetData()
+    })
+})

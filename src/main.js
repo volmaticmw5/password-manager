@@ -1,7 +1,8 @@
-import { app, BrowserWindow, Menu, MenuItem, ipcMain, ipcRenderer, contextBridge } from 'electron';
+import { app, BrowserWindow, Menu, dialog, MenuItem, ipcMain, ipcRenderer, contextBridge } from 'electron';
 import * as path from 'path';
 import * as config from './config'
 import { cSession } from './session'
+import UserData from './udata';
 
 let mainWindow
 global.user = new cSession();
@@ -36,6 +37,78 @@ const menu = Menu.buildFromTemplate([
   {
     label: "File",
     submenu: [
+      {
+        label: 'Export passwords and notes',
+        accelerator: process.platform === 'darwin' ? 'Alt+Cmd+E' : 'Alt+Shift+E',
+        click: () => {
+          if(!global.user.isAuthenticated)
+          {
+            dialog.showErrorBox("Error", "You need to be logged in to export your passwords and notes!")
+          }
+          else
+          {
+            let filename = dialog.showSaveDialogSync(mainWindow, {
+              title: "Export password and notes to file",
+              defaultPath: "C:\\PasswordsAndNotes",
+              buttonLabel: "Export"
+            })
+
+            const udata = new UserData()
+            if(udata.FileExists())
+              udata.ReadUserData()
+
+            if(udata.GetData().length == 0)
+            {
+              dialog.showErrorBox("Error", "You don't have anything to export.")
+              return
+            }
+
+            udata.ExportTo(filename)
+            dialog.showMessageBox(mainWindow, {
+              message: "File was successfully exported!",
+              type: 'info',
+              title: 'Export'
+            })
+          }
+        }
+      },
+      {
+        label: 'Import passwords and notes',
+        accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
+        click: () => {
+          if(!global.user.isAuthenticated)
+          {
+            dialog.showErrorBox("Error", "You need to be logged in to import passwords and notes!")
+          }
+          else
+          {
+            let res = dialog.showOpenDialogSync(mainWindow, {
+              title: "Import password and notes to file",
+              buttonLabel: "Import",
+              properties: ['openFile']
+            })
+
+            const udata = new UserData()
+            if(udata.FileExists())
+              udata.ReadUserData()
+
+            let importRes = udata.ImportFrom(res[0])
+            if(importRes)
+            {
+              dialog.showMessageBox(mainWindow, {
+                message: "Contents were successfully imported!",
+                type: 'info',
+                title: 'Import'
+              })
+              mainWindow.loadFile(path.join(__dirname, '../src/html/home.html'));
+            }
+            else
+            {
+              dialog.showErrorBox("Error", "Import action failed! Please check that you have selected the correct type of file.")
+            }
+          }
+        }
+      },
       {
         type: 'separator'
       },
