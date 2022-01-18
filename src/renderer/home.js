@@ -11,9 +11,13 @@ const clipboardClose = document.getElementById('clipboardNotificationClose')
 const deleteModalClose = document.getElementById('closeDeleteBtn')
 const deleteModalClose2 = document.getElementById('closeDeleteBtn2')
 const deleteBtnConfirm = document.getElementById('deleteBtnConfirm')
+const editPasswordModal = document.getElementById('edit_password_modal')
+const editModalClose = document.getElementById('closeEditBtn')
 const form = document.querySelector('#newPassword')
+const editForm = document.querySelector('#editPassword')
 
 let toDeleteIdTemp = -1
+let toEditIdTemp = -1
 
 // Set styles
 clipboardAlert.style.display = "none";
@@ -35,6 +39,28 @@ form.addEventListener('submit', (e) => {
     password: document.getElementById('input_new_password_password').value
   })
 });
+
+editForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  editPasswordModal.classList.remove('is-active')
+
+  window.api.send('EditSavePassword', {
+    id: toEditIdTemp,
+    name: document.getElementById('input_edit_password_name').value,
+    url: document.getElementById('input_edit_password_url').value,
+    username: document.getElementById('input_edit_password_username').value,
+    password: document.getElementById('input_edit_password_password').value
+  })
+});
+
+editModalClose.addEventListener('click', (e) => {
+  editPasswordModal.classList.remove('is-active')
+  document.getElementById('input_edit_password_name').value = ''
+  document.getElementById('input_edit_password_url').value = ''
+  document.getElementById('input_edit_password_username').value = ''
+  document.getElementById('input_edit_password_password').value = ''
+  toEditIdTemp = -1
+})
 
 deleteBtnConfirm.addEventListener('click', (e) => {
   window.api.send('DeletePassword', {id: toDeleteIdTemp})
@@ -89,6 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Response from edit password
+window.api.receive('GetPasswordValuesResponse', (resp) => {
+  document.getElementById('input_edit_password_name').value = resp.data.name
+  document.getElementById('input_edit_password_url').value = resp.data.url
+  document.getElementById('input_edit_password_username').value = resp.data.username
+  document.getElementById('input_edit_password_password').value = resp.data.password
+  editPasswordModal.classList.add('is-active')
+})
+
 // Populate main content
 window.api.receive("UserDataResponse", (resp) => 
 {
@@ -120,7 +155,7 @@ window.api.receive("UserDataResponse", (resp) =>
                     <a href="#" onclick="copyPassword('`+entry.id+`')"><i class="fas fa-copy has-text-primary"></i></a>
                 </div>
                 <div class="card-footer-item">
-                    <a href="#"><i class="fas fa-pencil-alt has-text-info"></i></a>
+                    <a href="#" onclick="editPassword('`+entry.id+`')"><i class="fas fa-pencil-alt has-text-info"></i></a>
                 </div>
                 <div class="card-footer-item">
                     <a href="#" onclick="deleteModal('`+entry.id+`')"><i class="fas fa-trash has-text-danger-dark"></i></a>
@@ -132,6 +167,11 @@ window.api.receive("UserDataResponse", (resp) =>
         }
     })
 })
+
+editPassword = (id) => {
+  toEditIdTemp = id
+  window.api.send('GetPasswordValues', {id:id})
+}
 
 deleteModal = (id) => {
   document.getElementById('delete_modal').classList.add('is-active')

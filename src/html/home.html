@@ -88,6 +88,48 @@
       </div>
     </div>
     
+    <div class="modal" id="edit_password_modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Edit password</p>
+          <button id="closeEditBtn" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form id="editPassword">
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_edit_password_name" class="input" type="text" placeholder="Password name">
+              <span class="icon is-small is-left">
+                <i class="fas fa-signature"></i>
+              </span>
+            </p>
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_edit_password_url" class="input" type="text" placeholder="Url">
+              <span class="icon is-small is-left">
+                <i class="far fa-window-maximize"></i>
+              </span>
+            </p>
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_edit_password_username" class="input" type="text" placeholder="Username or E-mail">
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </p>
+            <p class="control has-icons-left is-7 mt-3">
+              <input id="input_edit_password_password" class="input" type="password" placeholder="Password">
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+  
+            <input type="submit" value="Save" class="button is-centered is-primary is-medium mt-5">
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+        </footer>
+      </div>
+    </div>
+
     <div class="modal" id="new_password_modal">
       <div class="modal-background"></div>
       <div class="modal-card">

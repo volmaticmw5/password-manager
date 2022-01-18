@@ -31,6 +31,18 @@ ipcMain.on('NewPassword', (event, args) => {
     }
 })
 
+ipcMain.on('EditSavePassword', (event, args) => {
+    let res = udata.EditPassword(args.id, args.name, args.url, args.username, args.password)
+
+    if(res)
+    {
+        udata.WriteUserData()
+        event.sender.send('UserDataResponse', {
+            data: udata.GetData()
+        })
+    }
+})
+
 ipcMain.on('DeletePassword', (event, args) => {
     if(args.id <= 0)
         return
@@ -39,5 +51,12 @@ ipcMain.on('DeletePassword', (event, args) => {
     udata.WriteUserData()
     event.sender.send('UserDataResponse', {
         data: udata.GetData()
+    })
+})
+
+ipcMain.on('GetPasswordValues', (event, args) => {
+    let _data = udata.GetPasswordData(args.id)
+    event.sender.send('GetPasswordValuesResponse', {
+        data: _data
     })
 })

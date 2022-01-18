@@ -28,6 +28,19 @@ export default class UserData
         }
     }
 
+    GetPasswordData(id)
+    {
+        for(let i = 0; i < this.userDataObj.length; i++)
+        {
+            if(this.userDataObj[i].type == "password" && this.userDataObj[i].id == id)
+            {
+                let response = JSON.parse(JSON.stringify(this.userDataObj[i]))
+                response.password = decrypt(config.getMasterPassword(), response.password)
+                return response
+            }
+        }
+    }
+
     ImportFrom(dir)
     {
         try{
@@ -95,6 +108,22 @@ export default class UserData
         )
 
         return true
+    }
+
+    EditPassword(id, name, url, username, password)
+    {
+        let encPass = encrypt(config.getMasterPassword(), password)
+        for(let i=0; i < this.userDataObj.length; i++)
+        {
+            if(this.userDataObj[i].id == id) 
+            {
+                this.userDataObj[i].name = name
+                this.userDataObj[i].url = url
+                this.userDataObj[i].username = username
+                this.userDataObj[i].password = encPass
+                return true
+            }
+        }
     }
 
     DeletePassword(id)
