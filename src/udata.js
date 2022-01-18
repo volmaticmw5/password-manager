@@ -28,6 +28,11 @@ export default class UserData
         }
     }
 
+    ForceUpdateData(_new)
+    {
+        this.userDataObj = _new
+    }
+
     GetPasswordData(id)
     {
         for(let i = 0; i < this.userDataObj.length; i++)

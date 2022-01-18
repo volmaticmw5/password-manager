@@ -25,7 +25,10 @@ loadingText.style.display = "block";
 main.style.display = "none";
 
 // Get user data
-window.api.send("GetUserData", {});
+window.api.send("GetUserData", {})
+
+// Sync
+window.api.send("TrySync", {})
 
 // Events
 form.addEventListener('submit', (e) => {

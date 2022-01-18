@@ -1,6 +1,7 @@
 const config = require('electron-json-config')
 const {shell} = require('electron');
-const crypto = require('crypto')
+const crypto = require('crypto');
+const { decrypt } = require('./crypt');
 
 function HasMasterPassword()
 {
@@ -35,8 +36,30 @@ function OpenConfigurationFile()
     shell.openPath(file);
 }
 
+function UpdateSyncSettings(host, user)
+{
+    config.set('sync', {
+        username: user,
+        hostname: host
+    })
+}
+
+function GetSyncSettings()
+{
+    if(config.has('sync'))
+    {
+        return config.get('sync')
+    }
+    else
+    {
+        return {hostname: '', username: ''}
+    }
+}
+
 module.exports.HasMasterPassword = HasMasterPassword
 module.exports.SetMastersPassword = SetMastersPassword
 module.exports.Purge = Purge
 module.exports.OpenConfigurationFile = OpenConfigurationFile
 module.exports.getMasterPassword = getMasterPassword
+module.exports.UpdateSyncSettings = UpdateSyncSettings
+module.exports.GetSyncSettings = GetSyncSettings

@@ -3,13 +3,17 @@ import * as path from 'path';
 import * as config from './config'
 import { cSession } from './session'
 import UserData from './udata';
+import { cSync } from './sync'
 
 let mainWindow
 global.user = new cSession();
 let debug = process.execPath.match(/dist[\\/]electron/i)
+let alreadyRetryingSync = false
 
 // Load render(s)
 require('./renderToMainImport')
+
+const syncer = new cSync(1000)
 
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -113,6 +117,35 @@ const menu = Menu.buildFromTemplate([
         type: 'separator'
       },
       {
+        label: 'Syncing',
+        accelerator: process.platform === 'darwin' ? 'Alt+Cmd+S' : 'Alt+Shift+S',
+        click: () => {
+          if(!global.user.isAuthenticated)
+          {
+            dialog.showErrorBox("Error", "You need to be authenticated to setup syncing.")
+            return
+          }
+
+          let childWindow = new BrowserWindow({
+            width: 400,
+            height: 600,
+            resizable: false,
+            autoHideMenuBar: true,
+            alwaysOnTop: true,
+            webPreferences: {
+              nodeIntegration: false,
+              contextIsolation: true,
+              preload: path.join(__dirname, "preload.js")
+            }
+          })
+          childWindow.loadFile(path.join(__dirname, '../src/html/sync.html'));
+          childWindow.on('close', () => { childWindow = null })
+        }
+      },
+      {
+        type: 'separator'
+      },
+      {
         label: 'Quit',
         accelerator: process.platform === 'darwin' ? 'Alt+Cmd+Q' : 'Alt+Shift+Q',
         click: () => { app.quit() }
@@ -181,3 +214,28 @@ ipcMain.on('GoHomeScreen', (event, args) => {
   else
     mainWindow.loadFile(path.join(__dirname, '../src/html/login.html'));
 })
+
+ipcMain.on('TrySync', (event, args) => {
+  syncer.Validate()
+  if(syncer.isValid)
+    syncer.Sync()
+  else
+  {
+    retrySync()
+  }
+})
+
+function retrySync()
+{
+  if(alreadyRetryingSync)
+    return
+
+  alreadyRetryingSync = true
+  setTimeout(() => {
+    syncer.Validate()
+    if(syncer.isValid)
+      syncer.Sync()
+    else
+      retrySync()
+  }, 1000);
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <title>Password Manager - Syncing</title>
+    <link rel="stylesheet" href="../../assets/css/bulma.min.css">
+    <link rel="stylesheet" href="../../assets/css/fa.min.css">
+    <link rel="stylesheet" href="../../assets/css/index.css" />
+  </head>
+  <body>
+    <section class="section has-text-centered">
+      <div class="container">
+        <h3 class="title">
+          Syncing settings
+        </h3>
+        <p class="subtitle">
+          Please fill in the fields in order to sync accross devices.
+        </p>
+        <div class="columns is-mobile is-half is-centered">
+          <form id="syncing" method="POST">
+            <div class="column">
+                <p class="controlis-7">
+                    <label for="host">
+                        Example: https://mydomain.com/
+                    </label>
+                    <input id="host" class="input" type="text" placeholder="Hostname" required>
+                </p>
+                <p class="control is-7">
+                    <label for="username">
+                        A new one will be created if it doesn't exist
+                    </label>
+                    <input id="username" class="input" type="text" placeholder="Username" required>
+                </p>
+                <p class="control is-7">
+                    <label for="password">
+                        Your master password
+                    </label>
+                    <input id="password" class="input" type="password" placeholder="Master Password" required>
+                </p>
+
+                <p id="dialog"></p>
+                <button id="testSync" class="button is-centered is-outlined is-medium mt-5">Test settings</button>
+                <input type="submit" value="Save settings" class="button is-centered is-primary is-medium mt-5">
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../renderer/sync.js"></script>
+  </body>
+</html>
