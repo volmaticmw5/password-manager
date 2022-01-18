@@ -2,8 +2,6 @@
 
 This project is a free and open source password manager that you can (in the future) host yourself so you don't have to resort to a third party with your precious data.
 
-Right now its pretty barebones and it only works locally. You can export and import passwords, add and edit passwords but that's about it.
-
 ## Features
 
 - [x] AES-256 encryption
@@ -11,7 +9,7 @@ Right now its pretty barebones and it only works locally. You can export and imp
 - [x] Import & Export user data
 - [ ] Secure notes
 - [ ] Multilang support
-- [ ] Syncing
+- [x] Syncing
 
 ## Building from source
 
@@ -20,7 +18,7 @@ This project is built using electron forge so you'll have to install node and np
 ```cli
 git clone https://github.com/volmaticmw5/password-manager.git
 cd password-manager
-npm update
+npm install
 npm run make
 ```
 You can edit the package.json file in order to specify other platforms for forge to compile for.
